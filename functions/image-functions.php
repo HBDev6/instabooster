@@ -1,22 +1,46 @@
 <?php
+
+    function addImageDB($pdo, $fileName){
+        $dateNow = new DateTime();
+        // var_dump($_SESSION);
+        $userName=$_SESSION['user']['firstname'].' '.$_SESSION['user']['lastname'].' {'.$_SESSION['user']['pseudo'].'}';
+        // var_dump($userName);
+        $location = $_POST['location'];
+        var_dump($location);
+        
+        try{
+            $req = $pdo->prepare(
+                'INSERT INTO library(filename, location, date , pseudo)
+                VALUES(:filename, :location, NOW(), :pseudo)');
+            $req->execute([
+                'filename' => $fileName,
+                'location' => $location,
+                // 'date' => $dateNow->format('d/m/y'),
+                'pseudo' => $userName
+            ]);
+        } catch (PDOException $exception){
+            var_dump($exception);
+            die();
+        }
+        // return $errors;
+
+    }   
+
     function uploadImage(){
         $errors=[];
-        if(isset($_FILES['image']) AND $_FILES['image']['error']==0){
+        // if(isset($_FILES['image']) AND $_FILES['image']['error']==0){
             //test file size
-            if($_FILES['image']['size']<=1000000){
+            if($_FILES['image']['size']===0){
+                $errors[]='empty upload';
+            }else if($_FILES['image']['size']<=1000000){
                 //test authorised extension
-                // var_dump($_FILES); test worked
                 $allowedExtension = ['jpg', 'jpeg', 'gif','png'];
                 $fileInfo = pathinfo($_FILES['image']['name']);
-                // var_dump($fileInfo); test worked 
                 $extension_upload = $fileInfo['extension'];
                 if(in_array($extension_upload, $allowedExtension)){
                     //file validation
-                    // var_dump($_FILES); test worked 
                     $fileName = uniqid().'.'.explode('/', $_FILES['image']['type'])[1];
-                    // var_dump($fileName); test worked 
                     move_uploaded_file($_FILES['image']['tmp_name'],'assets/uploads/library/'.$fileName);
-                    // move_uploaded_file($_FILES['image']['tmp_name'],'uploads/'.uniqid().'.'.$extension_upload);
                     echo('file uploaded !');
                 }else{
                     // echo('file not valid');
@@ -26,8 +50,11 @@
                 // echo('file too big');
                 $errors[]='file too big';
             }
+            // var_dump($errors);
+            // return $errors;
+            return ['errors'=>$errors, 'fileName'=>$fileName];
         }
-    }
+    // }
 
 
 ?>

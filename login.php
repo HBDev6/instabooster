@@ -27,7 +27,7 @@
         <a href="register.php">don't have an account ?</a>
     </form>
 
-    <?php 
+<?php 
     
     if(count($errors) > 0){
         echo('<h4 style="color: red; text-decoration:underline;"> ERRORS have been found : </h4>');

@@ -7,9 +7,19 @@
         // var_dump('$_POST');
         $errors = validateFormUser();
 
-
         if(count($errors)===0){
-            registerUser($pdo);
+            $errors = registerUser($pdo, $errors);
+            if(count($errors) === 0){
+                header('Location: login.php');
+            // }
+                }else{
+                    echo('<h4 style="color: red; text-decoration:underline;"> ERRORS have been found : </h4>');
+                    echo('<ul style="color: red">');
+                    foreach($errors as $error){
+                        echo('<li>'.$error.'</li>');
+                    }
+                    echo('</ul>');
+            }
 
         }else{
             // var_dump($errors);

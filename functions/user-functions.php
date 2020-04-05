@@ -1,13 +1,12 @@
 <?php
 
-function registerUser($pdo){
-    var_dump($_POST);
-
+function registerUser($pdo, $errors){
+    // var_dump($_POST);
     try{
         $req = $pdo->prepare(
             'INSERT INTO users(pseudo, email, firstname , lastname, password)
             VALUES(:pseudo, :email, :firstname, :lastname, :password)');
-        $result = $req->execute([
+        $req->execute([
             'pseudo' => $_POST['pseudo'],
             'email' => $_POST['email'],
             'firstname' => $_POST['firstname'],
@@ -15,19 +14,24 @@ function registerUser($pdo){
             'password' => md5($_POST['password'])
         ]);
     } catch (PDOException $exception){
-        echo('exception has been caught :');
-        var_dump($exception);
+        echo('<br>exception has been caught :');
+        // var_dump($exception);
+        var_dump($exception->getcode());
+
+        if(($exception->getcode())==='23000'){
+            $errors[] = 'email already use';
+        }
+        // echo('<br><strong>echo test return errors');
+        // var_dump($errors);
+        // return $errors;
     }
-
-
-
-    echo('<hr> registration done :)');
-    var_dump($result);
+    echo('<br><strong>echo test return errors 2');
+    var_dump($errors);
+    return $errors;
+    // echo('<hr> registration done :)');
+    // var_dump($result);
     // die();
-
 }
-
-
 
 function validateFormUser(){
     $errors = [];

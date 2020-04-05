@@ -23,15 +23,11 @@ function login($pdo, $login, $password){
     } else {
         $_SESSION['user'] = $res;
     }
-    // var_dump($req->fetch());
-    var_dump($errors);
+    // var_dump($errors);
     return $errors;
 }
 
-
-
 function registerUser($pdo, $errors){
-    // var_dump($_POST);
     try{
         $req = $pdo->prepare(
             'INSERT INTO users(pseudo, email, firstname , lastname, password)
@@ -44,8 +40,6 @@ function registerUser($pdo, $errors){
             'password' => md5($_POST['password'])
         ]);
     } catch (PDOException $exception){
-        // echo('<br>exception has been caught :');
-
         if(($exception->getcode())==='23000'){
             $errors[] = 'email already use';
         }
@@ -73,5 +67,3 @@ function validateFormUser(){
     return $errors;
 }
 ?>
-
-

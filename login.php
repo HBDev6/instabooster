@@ -4,7 +4,6 @@
     require_once 'pdo_connexion.php';
     $errors=[];
 
-
     if($_SERVER['REQUEST_METHOD']==='POST'){
         $errors = login($pdo, $_POST['login'], $_POST['password']);
         if(count($errors)==0){
@@ -28,7 +27,6 @@
         <a href="register.php">don't have an account ?</a>
     </form>
 
-
     <?php 
     
     if(count($errors) > 0){
@@ -41,7 +39,6 @@
     }
     // var_dump($errors);
 ?>
-
 
 </body>
 </html>

@@ -14,20 +14,25 @@
     }
 ?>
 
-<h1>create an account</h1>
+<html>
+<head>
+    <?php include 'stylesheet.php' ?>
+</head>
+<body>
+    <h1>create an account</h1>
 
-<form method="POST" action="register.php">
-<!-- I don't put "required" attribute to test backend features, 
-but we'll have to put them later to ensure fewer querries-->
-    <input type="text" placeholder="pseudo" name="pseudo" >
-    <input type="text" placeholder="email" name="email">
-    <input type="text" placeholder="first name" name="firstname">
-    <input type="text" placeholder="last name" name="lastname">
-    <input type="text" placeholder="password" name="password">
-    <input type="submit">
-</form>
+    <form method="POST" action="register.php">
+    <!-- I don't put "required" attribute to test backend features, 
+    but we'll have to put them later to ensure fewer querries-->
+        <input type="text" placeholder="pseudo" name="pseudo" >
+        <input type="text" placeholder="email" name="email">
+        <input type="text" placeholder="first name" name="firstname">
+        <input type="text" placeholder="last name" name="lastname">
+        <input type="text" placeholder="password" name="password">
+        <input type="submit">
+    </form>
 
-<a href="login.php">already have an account ?</a>
+    <a href="login.php">already have an account ?</a>
 
 <?php 
     if(count($errors) != 0){
@@ -41,3 +46,5 @@ but we'll have to put them later to ensure fewer querries-->
     // var_dump($errors);
 ?>
 
+</body>
+</html>

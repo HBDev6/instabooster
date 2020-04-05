@@ -1,4 +1,14 @@
 <?php
+// session_start(); 
+//doesn't work -> get a warning : already had a session
+
+function isUserConnected(){
+    if($_SESSION['user']){
+        return $_SESSION['user'];
+    } else {
+        header('Location: login.php');
+    }
+}
 
 function login($pdo, $login, $password){   
     $errors = [];    

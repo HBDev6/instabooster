@@ -16,5 +16,5 @@
     throw new InvalidArgumentException('Connexion to DB failed : '.$e->getMessage());
     exit;
     }
-    echo('connexion to db granted');
+    // echo('connexion to db granted');
 ?>

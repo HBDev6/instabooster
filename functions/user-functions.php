@@ -3,17 +3,26 @@
 function registerUser($pdo){
     var_dump($_POST);
 
-    $req = $pdo->prepare(
-        'INSERT INTO users(pseudo, email, firstname , lastname, password)
-        VALUES(:pseudo, :email, :firstname, :lastname, :password)');
-    $req->execute([
-        'pseudo' => $_POST['pseudo'],
-        'email' => $_POST['email'],
-        'firstname' => $_POST['firstname'],
-        'lastname' => $_POST['lastname'],
-        'password' => $_POST['password'],
-    ]);
+    try{
+        $req = $pdo->prepare(
+            'INSERT INTO users(pseudo, email, firstname , lastname, password)
+            VALUES(:pseudo, :email, :firstname, :lastname, :password)');
+        $result = $req->execute([
+            'pseudo' => $_POST['pseudo'],
+            'email' => $_POST['email'],
+            'firstname' => $_POST['firstname'],
+            'lastname' => $_POST['lastname'],
+            'password' => md5($_POST['password'])
+        ]);
+    } catch (PDOException $exception){
+        echo('exception has been caught :');
+        var_dump($exception);
+    }
+
+
+
     echo('<hr> registration done :)');
+    var_dump($result);
     // die();
 
 }

@@ -46,9 +46,6 @@
             }
             echo('</ul>');
         }
-        // } else if($errorAndLink === null){
-        //     echo('empty input, please browse a valid file to upload');
-        // }
 ?>
 
 </body>

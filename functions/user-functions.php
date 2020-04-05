@@ -1,6 +1,20 @@
 <?php
 
-function registerUser(){
+function registerUser($pdo){
+    var_dump($_POST);
+
+    $req = $pdo->prepare(
+        'INSERT INTO users(pseudo, email, firstname , lastname, password)
+        VALUES(:pseudo, :email, :firstname, :lastname, :password)');
+    $req->execute([
+        'pseudo' => $_POST['pseudo'],
+        'email' => $_POST['email'],
+        'firstname' => $_POST['firstname'],
+        'lastname' => $_POST['lastname'],
+        'password' => $_POST['password'],
+    ]);
+    echo('<hr> registration done :)');
+    // die();
 
 }
 

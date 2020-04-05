@@ -1,5 +1,6 @@
 <?php
     require_once 'functions/user-functions.php';
+    require_once 'pdo_connexion.php';
 
     if($_SERVER['REQUEST_METHOD']==='POST'){
         // analyzing form if method is POST
@@ -8,7 +9,7 @@
 
 
         if(count($errors)===0){
-            // registerUser($pdo);
+            registerUser($pdo);
 
         }else{
             // var_dump($errors);

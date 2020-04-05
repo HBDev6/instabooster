@@ -1,5 +1,35 @@
 <?php
 
+function login($pdo, $login, $password){   
+    $errors = [];    
+    try{
+        $req = $pdo->prepare(
+            'SELECT * FROM users 
+            where (email = :email OR pseudo = :pseudo) 
+            AND password = :password');
+        $req->execute([
+            'email' => $login,
+            'pseudo' => $login,
+            'password' => md5($password)
+        ]);
+    } catch (PDOException $exception){
+        var_dump($exception);
+        die();
+    }   
+    $res = $req->fetch();
+    if($res === false){
+        $errors[]='unknown user';
+        session_destroy();
+    } else {
+        $_SESSION['user'] = $res;
+    }
+    // var_dump($req->fetch());
+    var_dump($errors);
+    return $errors;
+}
+
+
+
 function registerUser($pdo, $errors){
     // var_dump($_POST);
     try{
@@ -14,23 +44,13 @@ function registerUser($pdo, $errors){
             'password' => md5($_POST['password'])
         ]);
     } catch (PDOException $exception){
-        echo('<br>exception has been caught :');
-        // var_dump($exception);
-        var_dump($exception->getcode());
+        // echo('<br>exception has been caught :');
 
         if(($exception->getcode())==='23000'){
             $errors[] = 'email already use';
         }
-        // echo('<br><strong>echo test return errors');
-        // var_dump($errors);
-        // return $errors;
     }
-    echo('<br><strong>echo test return errors 2');
-    var_dump($errors);
     return $errors;
-    // echo('<hr> registration done :)');
-    // var_dump($result);
-    // die();
 }
 
 function validateFormUser(){

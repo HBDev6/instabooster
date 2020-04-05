@@ -1,40 +1,35 @@
 <?php
     require_once 'functions/user-functions.php';
     require_once 'pdo_connexion.php';
-
+    $errors=[];
     if($_SERVER['REQUEST_METHOD']==='POST'){
-        // analyzing form if method is POST
-        // var_dump('$_POST');
         $errors = validateFormUser();
 
         if(count($errors)===0){
             $errors = registerUser($pdo, $errors);
             if(count($errors) === 0){
                 header('Location: login.php');
-            // }
-                }else{
-                    echo('<h4 style="color: red; text-decoration:underline;"> ERRORS have been found : </h4>');
-                    echo('<ul style="color: red">');
-                    foreach($errors as $error){
-                        echo('<li>'.$error.'</li>');
-                    }
-                    echo('</ul>');
             }
-
-        }else{
-            // var_dump($errors);
-            echo('<h4 style="color: red; text-decoration:underline;"> ERRORS have been found : </h4>');
-            echo('<ul style="color: red">');
-            foreach($errors as $error){
-                echo('<li>'.$error.'</li>');
-            }
-            echo('</ul>');
+        //         }else{
+        //             echo('<h4 style="color: red; text-decoration:underline;"> ERRORS have been found : </h4>');
+        //             echo('<ul style="color: red">');
+        //             foreach($errors as $error){
+        //                 echo('<li>'.$error.'</li>');
+        //             }
+        //             echo('</ul>');
+        //     }
+        // }else{
+        //     echo('<h4 style="color: red; text-decoration:underline;"> ERRORS have been found : </h4>');
+        //     echo('<ul style="color: red">');
+        //     foreach($errors as $error){
+        //         echo('<li>'.$error.'</li>');
+        //     }
+        //     echo('</ul>');
         }
     }
 ?>
 
 <h1>create an account</h1>
-
 
 
 <form method="POST" action="register.php">
@@ -51,3 +46,16 @@ but we'll have to put them later -->
 
 
 <a href="login.php">already have an account ?</a>
+
+<?php 
+    echo('--- errors here ---');
+    if(count($errors) != 0){
+        echo('<h4 style="color: red; text-decoration:underline;"> ERRORS have been found : </h4>');
+        echo('<ul style="color: red">');
+        foreach($errors as $error){
+            echo('<li>'.$error.'</li>');
+        }
+        echo('</ul>');
+    }
+    // var_dump($errors);
+?>
